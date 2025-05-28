@@ -1,0 +1,74 @@
+set preciseActions = true.
+
+free ta_monitoring:channel.
+free acme:channel.
+free web_commication:channel.
+free ct_monitoring:channel [private].
+free notification:channel [private].
+
+
+type skey.
+type pkey.
+fun pk(skey): pkey.
+
+event run(bitstring).
+event commit(bitstring).
+
+
+fun sign(bitstring,skey):bitstring.
+reduc forall m:bitstring, k:skey;
+      getmess(sign(m,k)) = m.
+reduc forall m:bitstring,k:skey;
+      checksign(sign(m,k), pk(k)) = m.
+
+fun pk_to_bitstring(pkey): bitstring.
+
+
+let ta(esk: skey, epk: pkey) =
+    new ask:skey;
+    let apk = pk(ask) in
+    new msg:bitstring;
+    let evidence = sign(pk_to_bitstring(apk), esk) in
+    out(ta_monitoring, evidence);
+    out(acme, apk);
+    in(acme, cert: bitstring);
+    let signature = sign(msg, ask) in
+    event run(msg);
+    out(web_commication, (msg, signature, apk, cert)).
+
+let cact(cactsk: skey, cactpk: pkey) =
+    in(acme, apk: pkey);
+    let cert = sign(pk_to_bitstring(apk), cactsk) in
+    out(acme, cert);
+    out(ct_monitoring, apk).
+    
+let monitor(epk: pkey) = 
+    in(ct_monitoring, apk: pkey);
+    in(ta_monitoring, evidence: bitstring);
+    
+    if pk_to_bitstring(apk) = checksign(evidence, epk) then 
+        out(notification, true)
+    else
+        out(notification, false). 
+
+let user(cactpk:pkey) =
+    in(web_commication, (msg:bitstring, signature:bitstring, apk:pkey, cert:bitstring));
+    in(notification, monitor_result:bool);
+
+    if msg = checksign(signature, apk) &&
+        pk_to_bitstring(apk) = checksign(cert, cactpk) &&
+        monitor_result then
+        event commit(msg).
+
+query msg: bitstring;
+    event(commit(msg)) ==> event(run(msg)).
+
+query msg: bitstring;
+    event(commit(msg)).
+
+process
+    new esk:skey;
+    new cactsk:skey;
+    let epk = pk(esk) in
+    let cactpk = pk(cactsk) in
+    ((ta(esk, epk)) | (cact(cactsk, cactpk)) | (monitor(epk)) | (user(cactpk)))

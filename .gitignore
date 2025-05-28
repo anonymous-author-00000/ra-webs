@@ -1,0 +1,46 @@
+# If you prefer the allow list template instead of the deny list, see community template:
+# hmonitors://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
+#
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+devkit/ta/certificate.pem
+devkit/ta/private.key
+devkit/ta/example/example
+monitor/ca_test.json
+
+**/repo
+devkit/service/cmd/cmd
+opt/domain-owner/example/config.yaml
+opt/domain-owner/example/example
+**/*.env
+
+**/*.db
+**/*.sqlite3
+
+**/last.txt
+**/*.pem
+monitor/serv/last.log
+monitor/serv/first-log.txt
+monitor/serv/example/example
+monitor/client/example/example
+devkit/service/serv/serv
+monitor/serv/example/debug/tmp
+test/adversary_example/adversary_example
+devkit/ta/example/private.pem
+devkit/ta/example/public.pem
