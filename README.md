@@ -54,5 +54,5 @@ proverif ra-webs.pv
 
 ### Demo
 
-Demo is [here](https://ra-webs-demo-0.eastus.cloudapp.azure.com).
+Demo is [here](https://ra-webs-demo-1.eastus.cloudapp.azure.com).
 Note that the demo may be suspended due to budget constraints.
