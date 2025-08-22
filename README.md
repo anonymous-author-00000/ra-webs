@@ -54,5 +54,8 @@ proverif ra-webs.pv
 
 ### Demo
 
-Demo is [here](https://ra-webs-demo-0.eastus.cloudapp.azure.com).
+The demos are as follows:
+- [TA](https://ra-webs-demo-2.eastus2.cloudapp.azure.com)
+- [Monitor](https://dip-safe-launches-approved.trycloudflare.com/)
+
 Note that the demo may be suspended due to budget constraints.
