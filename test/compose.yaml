@@ -34,7 +34,7 @@ services:
     volumes:
       - ../:/ra-webs
     working_dir: /ra-webs/monitor/serv/example
-    command: bash -c 'go mod tidy && go run .'
+    command: bash -c 'git config --global --add safe.directory /ra-webs && go mod tidy && go run .'
     env_file:
       - env/monitor.env
       - env/common.env
