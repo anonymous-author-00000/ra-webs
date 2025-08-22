@@ -5,7 +5,7 @@ services:
     volumes:
       - ../:/ra-webs
     working_dir: /ra-webs/test/bench
-    command: bash -c 'go mod tidy && sleep 30s && go test -bench .'
+    command: bash -c 'go mod tidy && sleep 30s && go test -benchtime=5x -bench .'
     env_file:
       - env/monitor.env
       - env/common.env
